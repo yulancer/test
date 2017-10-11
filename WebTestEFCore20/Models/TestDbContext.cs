@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebTestEFCore20.Models
 {
+
     public class TestDbContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<LegalEntity> LegalEntities { get; set; }
         public DbSet<Person> Persons { get; set; }
 
+
+        public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=test.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
+
+
     }
 
 
     public class Account
     {
-        [Key]
         public int Id { get; set; }
 
         public AccountOwner Owner { get; set; }
@@ -30,9 +41,9 @@ namespace WebTestEFCore20.Models
         public decimal Saldo { get; set; }
     }
 
+    [NotMapped]
     public abstract class AccountOwner
     {
-        [Key]
         public int Id { get; set; }
 
         public string OwnerType => GetOwnerType();
