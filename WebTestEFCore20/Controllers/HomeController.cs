@@ -10,10 +10,14 @@ namespace WebTestEFCore20.Controllers
 {
     public class HomeController : Controller
     {
-      
+
         public IActionResult Index()
         {
-            return View();
+            using (TestDbContext context = new TestDbContext())
+            {
+                IEnumerable<AccountViewModel> accounts = context.Accounts.Select(a => new AccountViewModel(a)).ToList();
+                return View(accounts);
+            }
         }
 
         public IActionResult About()

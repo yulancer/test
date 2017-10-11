@@ -17,6 +17,7 @@ namespace WebTestEFCore20.Models
 
 
         public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
+        public TestDbContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
