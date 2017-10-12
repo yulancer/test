@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using WebTestEFCore20.Models;
 
 namespace WebTestEFCore20.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    partial class TestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171012075457_LostLink2")]
+    partial class LostLink2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,68 +25,62 @@ namespace WebTestEFCore20.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("LegalEntityId");
+
                     b.Property<long>("Number");
 
-                    b.Property<int?>("OwnerId");
+                    b.Property<int?>("PersonId");
 
                     b.Property<decimal>("Saldo");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("LegalEntityId");
+
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("WebTestEFCore20.Models.AccountOwner", b =>
+            modelBuilder.Entity("WebTestEFCore20.Models.LegalEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountOwner");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("AccountOwner");
-                });
-
-            modelBuilder.Entity("WebTestEFCore20.Models.LegalEntity", b =>
-                {
-                    b.HasBaseType("WebTestEFCore20.Models.AccountOwner");
 
                     b.Property<string>("LegalType");
 
                     b.Property<string>("Name");
 
-                    b.ToTable("LegalEntity");
+                    b.HasKey("Id");
 
-                    b.HasDiscriminator().HasValue("LegalEntity");
+                    b.ToTable("LegalEntities");
                 });
 
             modelBuilder.Entity("WebTestEFCore20.Models.Person", b =>
                 {
-                    b.HasBaseType("WebTestEFCore20.Models.AccountOwner");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("Family");
 
-                    b.Property<string>("Name")
-                        .HasColumnName("Person_Name");
+                    b.Property<string>("Name");
 
-                    b.ToTable("Person");
+                    b.HasKey("Id");
 
-                    b.HasDiscriminator().HasValue("Person");
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("WebTestEFCore20.Models.Account", b =>
                 {
-                    b.HasOne("WebTestEFCore20.Models.AccountOwner", "Owner")
+                    b.HasOne("WebTestEFCore20.Models.LegalEntity")
                         .WithMany("Accounts")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("LegalEntityId");
+
+                    b.HasOne("WebTestEFCore20.Models.Person")
+                        .WithMany("Accounts")
+                        .HasForeignKey("PersonId");
                 });
 #pragma warning restore 612, 618
         }

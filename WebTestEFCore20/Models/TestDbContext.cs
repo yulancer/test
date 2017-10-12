@@ -36,22 +36,31 @@ namespace WebTestEFCore20.Models
     public class Account
     {
         public int Id { get; set; }
-
+      
         public AccountOwner Owner { get; set; }
         public long Number { get; set; }
         public decimal Saldo { get; set; }
     }
 
-    [NotMapped]
-    public abstract class AccountOwner
+    public class AccountOwner
     {
         public int Id { get; set; }
+
+        [InverseProperty("Owner")]
+        public IList<Account> Accounts { get; set; }
 
         public string OwnerType => GetOwnerType();
         public string OwnerName => GetOwnerName();
 
-        protected abstract string GetOwnerType();
-        protected abstract string GetOwnerName();
+        protected virtual string GetOwnerType()
+        {
+            throw  new NotImplementedException();
+        }
+
+        protected virtual string GetOwnerName()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 

@@ -12,9 +12,10 @@ using WebTestEFCore20.Models;
 namespace WebTestEFCore20.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    partial class TestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171012083558_LostLink3")]
+    partial class LostLink3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

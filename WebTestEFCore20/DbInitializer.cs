@@ -23,11 +23,16 @@ namespace WebTestEFCore20
                 petrov = new Person {Family = "Петров", Name = "Сергей"};
                 context.Persons.Add(ivanov);
                 context.Persons.Add(petrov);
+
+                context.SaveChanges();
             }
+
             if (!context.LegalEntities.Any())
             {
                 corns = new LegalEntity {Name = "Рога и копыта", LegalType = "ООО"};
                 context.LegalEntities.Add(corns);
+
+                context.SaveChanges();
             }
 
             if (!context.Accounts.Any())
@@ -39,9 +44,9 @@ namespace WebTestEFCore20
                 context.Accounts.Add(acc5678);
                 context.Accounts.Add(acc7656);
                 context.Accounts.Add(acc7876);
-            }
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
     }
 }

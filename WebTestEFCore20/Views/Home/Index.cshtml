@@ -12,9 +12,11 @@
             <li>Номер Остаток Тип лица Владелец</li>
             @foreach (AccountViewModel account in Model)
             {
-                <li> @account.Number @account.Saldo @account.OwnerType @account.OwnerName</li>
+                <li> @account.Number @string.Format("{0:N0}",account.Saldo) @account.OwnerType @account.OwnerName</li>
             }
         </ul>
+        
+        @Html.ActionLink("Поменять", "EditOwner")
     </div>
 
 </div>
